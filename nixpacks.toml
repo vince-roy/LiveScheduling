@@ -1,2 +1,2 @@
 [phases.setup]
-nixPkgs = ['elixir']
+nixPkgs = ['beam.packages.erlangR25.elixir_1_14', 'beam.packages.erlangR25.erlang', 'beam.packages.erlangR25.hex']
