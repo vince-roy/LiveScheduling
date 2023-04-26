@@ -1,4 +1,7 @@
 defmodule LiveSchedulingWeb.Telemetry do
+  @moduledoc """
+  App telemetry settings
+  """
   use Supervisor
   import Telemetry.Metrics
 
