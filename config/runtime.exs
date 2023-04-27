@@ -21,6 +21,14 @@ if System.get_env("PHX_SERVER") do
 end
 
 if config_env() == :prod do
+  app_signal_key =
+    System.get_env("APP_SIGNAL_API_KEY") ||
+      raise """
+      environment variable API_SIGNAL_API_KEY
+      """
+
+  config :appsignal, :config, push_api_key: app_signal_key
+
   database_url =
     System.get_env("DATABASE_URL") ||
       raise """

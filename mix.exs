@@ -32,6 +32,7 @@ defmodule LiveScheduling.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:appsignal, "~> 2.0"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:phoenix, "~> 1.7.2"},
       {:phoenix_ecto, "~> 4.4"},
