@@ -84,6 +84,7 @@ defmodule LiveSchedulingWeb do
       # HTML escaping functionality
       import Phoenix.HTML
       # Core UI components and translation
+      import LiveSchedulingWeb.Containers
       import LiveSchedulingWeb.CoreComponents
       import LiveSchedulingWeb.Gettext
 
