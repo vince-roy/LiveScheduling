@@ -37,5 +37,5 @@
 
 
 .home-splash:before {
-  background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(176,229,208,0.05) 42%, rgba(92,202,238,0.2) 93.6% );
+  background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(176,229,208,0.06) 42%, rgba(92,202,238,0.25) 93.6% );
 }
