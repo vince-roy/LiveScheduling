@@ -1,0 +1,12 @@
+{
+    "name": "prod",
+    "main": "index.ts",
+    "devDependencies": {
+        "@types/node": "^16"
+    },
+    "dependencies": {
+        "@pulumi/digitalocean": "^4.19.1",
+        "yaml": "^2.2.2",
+        "@pulumi/pulumi": "^3.0.0"
+    }
+}
