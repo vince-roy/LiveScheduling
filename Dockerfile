@@ -94,6 +94,6 @@ ENV MIX_ENV="prod"
 # Only copy the final release from the build stage
 COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/live_scheduling ./
 
-USER nobody
+# USER nobody
 
 CMD doppler run -- /app/bin/migrate && doppler run -- /app/bin/server
