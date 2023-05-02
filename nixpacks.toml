@@ -4,3 +4,6 @@ nixPkgs = [
     'beam.packages.erlangR25.erlang',
     'beam.packages.erlangR25.hex',
 ]
+
+[phase.name]
+  cacheDirectories = ['deps', '_build']

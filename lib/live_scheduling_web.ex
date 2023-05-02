@@ -89,6 +89,7 @@ defmodule LiveSchedulingWeb do
       import LiveSchedulingWeb.Gettext
 
       # Shortcut for generating JS commands
+      alias LiveSchedulingWeb.Form
       alias Phoenix.LiveView.JS
 
       # Routes generation with the ~p sigil
