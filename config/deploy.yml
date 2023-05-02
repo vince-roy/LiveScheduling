@@ -74,9 +74,11 @@ builder:
 #     accesslog: true
 #     accesslog.format: json
 traefik:
-  host_port: 4000
+  options:
+    publish:
+      - 80:4000
 
 # Configure a custom healthcheck (default is /up on port 3000)
 healthcheck:
   path: /
-  port: 4000
+  port: 80
