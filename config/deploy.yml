@@ -21,8 +21,10 @@ registry:
 # Inject ENV variables into containers (secrets come from .env).
 env:
   secret:
+    - APP_SIGNAL_API_KEY
     - DATABASE_URL
     - DOPPLER_TOKEN
+    - SECRET_KEY_BASE
 
 # Call a broadcast command on deploys.
 # audit_broadcast_cmd:

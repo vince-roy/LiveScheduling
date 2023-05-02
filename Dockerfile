@@ -69,12 +69,6 @@ RUN mix release
 # the compiled release and other runtime necessities
 FROM ${RUNNER_IMAGE}
 
-# Doppler
-RUN apt-get update && apt-get install -y apt-transport-https ca-certificates curl gnupg
-RUN curl -sLf --retry 3 --tlsv1.2 --proto "=https" 'https://packages.doppler.com/public/cli/gpg.DE2A7741A397C129.key' | apt-key add -
-RUN echo "deb https://packages.doppler.com/public/cli/deb/debian any-version main" | tee /etc/apt/sources.list.d/doppler-cli.list
-RUN apt-get update && apt-get install doppler
-
 RUN apt-get update -y && apt-get install -y libstdc++6 openssl libncurses5 locales \
   && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
@@ -95,5 +89,6 @@ ENV MIX_ENV="prod"
 COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/live_scheduling ./
 
 USER nobody
+
 EXPOSE 4000
-CMD doppler run -- /app/bin/migrate && doppler run -- /app/bin/server
+CMD /app/bin/migrate && /app/bin/server
