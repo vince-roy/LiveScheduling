@@ -86,7 +86,8 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
 WORKDIR "/app"
-RUN chown nobody /app
+RUN chown nobody:nobody /app
+USER nobody:nobody
 
 # set runner ENV
 ENV MIX_ENV="prod"
@@ -94,6 +95,5 @@ ENV MIX_ENV="prod"
 # Only copy the final release from the build stage
 COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/live_scheduling ./
 
-# USER nobody
 EXPOSE 4000
 CMD doppler run -- /app/bin/migrate && doppler run -- /app/bin/server
