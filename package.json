@@ -1,0 +1,27 @@
+{
+  "name": "live_scheduling",
+  "version": "1.0.0",
+  "description": "Follow the building journey at: [Pagespace](https://www.pagespace.app/u/vroy/08uFCDliRH-IjEY9GJEV_A/b/startup-from-scratch/kw-lxsQ1Q0yK5cwNq6oOOA)",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vince-roy/LiveScheduling.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vince-roy/LiveScheduling/issues"
+  },
+  "homepage": "https://github.com/vince-roy/LiveScheduling#readme",
+  "dependencies": {
+    "@pulumi/digitalocean": "^4.19.1",
+    "yaml": "^2.2.2"
+  }
+}
