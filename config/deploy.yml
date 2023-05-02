@@ -81,4 +81,4 @@ builder:
 # Configure a custom healthcheck (default is /up on port 3000)
 healthcheck:
   path: /
-  port: 80
+  port: 4000

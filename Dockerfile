@@ -95,5 +95,5 @@ ENV MIX_ENV="prod"
 COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/live_scheduling ./
 
 # USER nobody
-
+EXPOSE 4000
 CMD doppler run -- /app/bin/migrate && doppler run -- /app/bin/server
