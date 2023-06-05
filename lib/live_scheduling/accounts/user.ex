@@ -19,5 +19,6 @@ defmodule LiveScheduling.Accounts.User do
     user
     |> cast(attrs, [:email, :first_name, :last_name, :subscribed_to_marketing_at])
     |> validate_required([:email])
+    |> validate_format(:email, ~r/s@/)
   end
 end

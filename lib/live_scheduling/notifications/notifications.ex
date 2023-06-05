@@ -1,4 +1,7 @@
 defmodule LiveScheduling.Notifications do
+  @moduledoc """
+  The context for notification-related operations.
+  """
   alias LiveScheduling.Notifications.Email
   alias LiveScheduling.Mailer
 
