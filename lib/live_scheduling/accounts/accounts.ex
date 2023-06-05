@@ -2,9 +2,9 @@ defmodule LiveScheduling.Accounts do
   @moduledoc """
   The context for account-related operations.
   """
-  alias LiveScheduling.Repo
   alias LiveScheduling.Accounts.User
   alias LiveScheduling.Accounts.UserToken
+  alias LiveScheduling.Repo
   import Ecto.Query
 
   # seconds

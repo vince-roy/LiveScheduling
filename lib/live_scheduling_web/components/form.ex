@@ -1,5 +1,6 @@
 defmodule LiveSchedulingWeb.Form do
   use Phoenix.Component
+  alias Phoenix.HTML
 
   @moduledoc """
   Renders pure inputs (no label or errors).
@@ -51,13 +52,13 @@ defmodule LiveSchedulingWeb.Form do
 
   def input(%{type: "textarea"} = assigns) do
     ~H"""
-    <textarea id={@id} name={@name} class="pc-text-input" {@rest}><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
+    <textarea id={@id} name={@name} class="pc-text-input" {@rest}><%= HTML.Form.normalize_value("textarea", @value) %></textarea>
     """
   end
 
   def input(%{type: "switch", value: value} = assigns) do
     assigns =
-      assign_new(assigns, :checked, fn -> Phoenix.HTML.Form.normalize_value("checkbox", value) end)
+      assign_new(assigns, :checked, fn -> HTML.Form.normalize_value("checkbox", value) end)
 
     ~H"""
     <label class="pc-switch">
@@ -83,7 +84,7 @@ defmodule LiveSchedulingWeb.Form do
       type={@type}
       name={@name}
       id={@id}
-      value={Phoenix.HTML.Form.normalize_value(@type, @value)}
+      value={HTML.Form.normalize_value(@type, @value)}
       class={@class}
       {@rest}
     />
