@@ -17,7 +17,7 @@ defmodule LiveSchedulingWeb.PagesLive.Home do
          put_flash(
            assign(socket, :form, to_form(User.changeset(%User{}, %{}))),
            :info,
-           "It worked"
+           "Check your email to confirm your subscription."
          )}
     end
   end
