@@ -2,9 +2,9 @@ defmodule LiveScheduling.Accounts do
   @moduledoc """
   The context for account-related operations.
   """
-  alias LiveScheduling.Repo
   alias LiveScheduling.Accounts.User
   alias LiveScheduling.Accounts.UserToken
+  alias LiveScheduling.Repo
   import Ecto.Query
 
   # seconds
@@ -25,10 +25,27 @@ defmodule LiveScheduling.Accounts do
     |> Repo.insert()
   end
 
-  @spec create_user_subscription(%{:token => binary()}) ::
+  @spec confirm_user_subscription(%{:token => binary()}) ::
           {:ok, User.t()} | {:error, Ecto.Changeset.t()}
   def confirm_user_subscription(%{token: token}) do
-    {:ok, token}
+    token =
+      Repo.one(
+        preload(
+          query_tokens(%{
+            token: token
+          }),
+          :user
+        )
+      )
+
+    with %{user: %User{} = user} <- token,
+         {:ok, _} <-
+           Repo.update(User.changeset(user, %{subscribed_to_marketing_at: DateTime.utc_now()})) do
+      {:ok, "Subscription confirmed"}
+    else
+      nil -> {:error, "Invalid token"}
+      err -> err
+    end
   end
 
   @doc """
@@ -48,8 +65,9 @@ defmodule LiveScheduling.Accounts do
                 context: :subscription,
                 user_id: user.id
               })
-            )} do
-      create_user_token(%{user_id: user.id, context: :subscription})
+            )},
+         {:ok, _} <- create_user_token(%{user_id: user.id, context: :subscription}) do
+      {:ok, "Please check your email to confirm your subscription"}
     else
       {:ok, %UserToken{}} ->
         {:error,

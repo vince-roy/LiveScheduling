@@ -1,4 +1,7 @@
 defmodule LiveScheduling.Notifications.Email do
+  @moduledoc """
+  Email notification module
+  """
   use Phoenix.Component
   import Phoenix.HTML
   import Swoosh.Email

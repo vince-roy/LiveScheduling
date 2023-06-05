@@ -1,6 +1,9 @@
 defmodule LiveScheduling.Notifications do
-  alias LiveScheduling.Notifications.Email
+  @moduledoc """
+  The context for notification-related operations.
+  """
   alias LiveScheduling.Mailer
+  alias LiveScheduling.Notifications.Email
 
   def deliver_confirm_subscription_email(args) do
     Email.ConfirmSubscription.build(args)
