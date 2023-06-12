@@ -55,7 +55,8 @@ defmodule LiveScheduling.Accounts do
   @spec create_user_subscription(%{:email => binary()}) ::
           {:ok, UserToken.t()} | {:error, Ecto.Changeset.t()} | {:error, :string}
   def create_user_subscription(%{email: email}) do
-    with {:ok, user} <- create_or_retrieve_user(%{email: email}),
+    with {:ok, %User{subscribed_to_marketing_at: nil} = user} <-
+           create_or_retrieve_user(%{email: email}),
          {:ok, nil} <-
            {:ok,
             Repo.one(
@@ -72,6 +73,9 @@ defmodule LiveScheduling.Accounts do
       {:ok, %UserToken{}} ->
         {:error,
          "A subscription request was sent recently. Please wait #{@subscription_debounce_time} seconds before trying again"}
+
+      %User{subscribed_to_marketing_at: time} when not is_nil(time) ->
+        {:error, "Invalid user or already subscribed"}
 
       res ->
         res
