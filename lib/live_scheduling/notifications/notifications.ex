@@ -5,7 +5,7 @@ defmodule LiveScheduling.Notifications do
   alias LiveScheduling.Mailer
   alias LiveScheduling.Notifications.Email
 
-  def deliver_confirm_subscription_email(args) do
+  def deliver_confirm_subscription_email(%Email.ConfirmSubscription{} = args) do
     Email.ConfirmSubscription.build(args)
     |> email_deliver()
   end

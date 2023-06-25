@@ -7,8 +7,6 @@ defmodule LiveSchedulingWeb.PagesLive.Home do
 
   @impl Phoenix.LiveView
   def handle_event("save", %{"user" => user}, socket) do
-    IO.inspect("HEY")
-
     {:noreply,
      put_flash(
        assign(socket, :form, to_form(User.changeset(%User{}, %{}))),
@@ -16,33 +14,37 @@ defmodule LiveSchedulingWeb.PagesLive.Home do
        "Check your email to confirm your subscription."
      )}
 
-    # LiveScheduling.Accounts.create_user_subscription(%{email: user["email"]})
-    # |> case do
-    #   {:error, %Ecto.Changeset{data: %User{}} = changeset} ->
-    #     {:noreply, assign(socket, :form, to_form(changeset))}
+    LiveScheduling.Accounts.create_user_subscription(%{
+      confirm_link: "/comments/:token",
+      email: user["email"],
+      ip: socket.assigns.ip
+    })
+    |> case do
+      {:error, %Ecto.Changeset{data: %User{}} = changeset} ->
+        {:noreply, assign(socket, :form, to_form(changeset))}
 
-    #   {:error, %Ecto.Changeset{}} ->
-    #     {:noreply, socket}
+      {:error, %Ecto.Changeset{}} ->
+        {:noreply, socket}
 
-    #   {:error, msg} ->
-    #     {:noreply,
-    #      put_flash(
-    #        socket,
-    #        :error,
-    #        msg
-    #      )}
+      {:error, msg} ->
+        {:noreply,
+         put_flash(
+           socket,
+           :error,
+           msg
+         )}
 
-    #   {:ok, _msg} ->
-    #     {:noreply,
-    #      put_flash(
-    #        assign(socket, :form, to_form(User.changeset(%User{}, %{}))),
-    #        :info,
-    #        "Check your email to confirm your subscription."
-    #      )}
-    # end
+      {:ok, _msg} ->
+        {:noreply,
+         put_flash(
+           assign(socket, :form, to_form(User.changeset(%User{}, %{}))),
+           :info,
+           "Check your email to confirm your subscription."
+         )}
+    end
   end
 
-  @impl Phoenix.LiveView
+  @impl true
   def mount(_params, _session, socket) do
     changeset = User.changeset(%User{}, %{})
     socket = assign(socket, :form, to_form(changeset))

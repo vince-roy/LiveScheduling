@@ -3,7 +3,7 @@ defmodule LiveScheduling.Repo.Migrations.CreateUserTokens do
 
   def change do
     create table(:user_tokens) do
-      add :token, :string
+      add :token, :binary
       add :context, :string
       add :deleted_at, :utc_datetime
       add :ip, :inet

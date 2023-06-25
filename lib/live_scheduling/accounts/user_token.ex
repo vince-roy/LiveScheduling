@@ -13,7 +13,7 @@ defmodule LiveScheduling.Accounts.UserToken do
     field :context, Ecto.Enum, values: [:subscription]
     field :deleted_at, :utc_datetime
     field :ip, EctoNetwork.INET
-    field :token, :string
+    field :token, :binary
     belongs_to :user, User
 
     timestamps()
