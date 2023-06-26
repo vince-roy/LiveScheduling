@@ -27,7 +27,7 @@ defmodule LiveScheduling.Notifications.Email.ConfirmSubscription do
       }) do
     base_email()
     |> to(email)
-    |> subject("Confirm Subscription")
+    |> subject(title)
     |> render_body("confirm_subscription", %{
       confirm_link: confirm_link,
       footer: footer,

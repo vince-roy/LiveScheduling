@@ -69,7 +69,7 @@ defmodule LiveSchedulingWeb.PagesLive.Home do
           LiveScheduling is a scheduling as a service platform being built to make adding real-time scheduling to your website or app a breeze via its APIs and real-time widgets.
         </p>
         <p class="pt-6 pb-2 text-lg text-zinc-500">Sign Up for Product Updates</p>
-        <.form class="mt-2" for={@form} phx-submit="save">
+        <.form class="mt-2" for={@form} id="subscribe" phx-submit="save">
           <div class="flex" phx-feedback-for={:email}>
             <Form.input
               class={[
