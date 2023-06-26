@@ -13,7 +13,7 @@ defmodule LiveScheduling.Accounts.UserToken do
     field :context, Ecto.Enum, values: [:subscription]
     field :deleted_at, :utc_datetime
     field :ip, EctoNetwork.INET
-    field :token, :string
+    field :token, :binary
     belongs_to :user, User
 
     timestamps()
@@ -29,7 +29,7 @@ defmodule LiveScheduling.Accounts.UserToken do
   @doc false
   def changeset(user_token, attrs) do
     user_token
-    |> cast(attrs, [:token, :context, :deleted_at, :ip])
+    |> cast(attrs, [:token, :context, :deleted_at, :ip, :user_id])
     |> validate_required([:token, :context, :ip, :user_id])
   end
 

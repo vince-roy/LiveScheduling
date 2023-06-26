@@ -7,10 +7,32 @@ defmodule LiveSchedulingWeb.PagesLive.Home do
 
   @impl Phoenix.LiveView
   def handle_event("save", %{"user" => user}, socket) do
-    Ecto.Changeset.apply_action(User.changeset(%User{}, user), :insert)
+    {:noreply,
+     put_flash(
+       assign(socket, :form, to_form(User.changeset(%User{}, %{}))),
+       :info,
+       "Check your email to confirm your subscription."
+     )}
+
+    LiveScheduling.Accounts.create_user_subscription(%{
+      confirm_link: "/comments/:token",
+      email: user["email"],
+      ip: socket.assigns.ip
+    })
     |> case do
-      {:error, changeset} ->
+      {:error, %Ecto.Changeset{data: %User{}} = changeset} ->
         {:noreply, assign(socket, :form, to_form(changeset))}
+
+      {:error, %Ecto.Changeset{}} ->
+        {:noreply, socket}
+
+      {:error, msg} ->
+        {:noreply,
+         put_flash(
+           socket,
+           :error,
+           msg
+         )}
 
       {:ok, _msg} ->
         {:noreply,
@@ -22,7 +44,7 @@ defmodule LiveSchedulingWeb.PagesLive.Home do
     end
   end
 
-  @impl Phoenix.LiveView
+  @impl true
   def mount(_params, _session, socket) do
     changeset = User.changeset(%User{}, %{})
     socket = assign(socket, :form, to_form(changeset))
@@ -32,7 +54,6 @@ defmodule LiveSchedulingWeb.PagesLive.Home do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <.flash_group flash={@flash} />
     <div class={["home-splash", "min-h-screen"]}>
       <.ctn_app class={["flex", "flex-col", "items-center", "py-24", "relative", "z-10"]}>
         <img class={["max-w-[300px]", "sm:max-w-[400px]"]} src={~p(/images/logo.svg)} />
@@ -48,7 +69,7 @@ defmodule LiveSchedulingWeb.PagesLive.Home do
           LiveScheduling is a scheduling as a service platform being built to make adding real-time scheduling to your website or app a breeze via its APIs and real-time widgets.
         </p>
         <p class="pt-6 pb-2 text-lg text-zinc-500">Sign Up for Product Updates</p>
-        <.form class="mt-2" for={@form} phx-submit="save">
+        <.form class="mt-2" for={@form} id="subscribe" phx-submit="save">
           <div class="flex" phx-feedback-for={:email}>
             <Form.input
               class={[

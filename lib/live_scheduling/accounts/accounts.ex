@@ -4,6 +4,8 @@ defmodule LiveScheduling.Accounts do
   """
   alias LiveScheduling.Accounts.User
   alias LiveScheduling.Accounts.UserToken
+  alias LiveScheduling.Notifications
+  alias LiveScheduling.Notifications.Email.ConfirmSubscription
   alias LiveScheduling.Repo
   import Ecto.Query
 
@@ -52,10 +54,11 @@ defmodule LiveScheduling.Accounts do
   This function creates a user if they don't exist, and then creates a user token for them for
   the purpose of activating marketing emails.
   """
-  @spec create_user_subscription(%{:email => binary()}) ::
+  @spec create_user_subscription(%{:confirm_link => binary(), :email => binary(), :ip => tuple()}) ::
           {:ok, UserToken.t()} | {:error, Ecto.Changeset.t()} | {:error, :string}
-  def create_user_subscription(%{email: email}) do
-    with {:ok, user} <- create_or_retrieve_user(%{email: email}),
+  def create_user_subscription(%{confirm_link: confirm_link, email: email, ip: ip}) do
+    with {:ok, %User{subscribed_to_marketing_at: nil} = user} <-
+           create_or_retrieve_user(%{email: email}),
          {:ok, nil} <-
            {:ok,
             Repo.one(
@@ -66,12 +69,25 @@ defmodule LiveScheduling.Accounts do
                 user_id: user.id
               })
             )},
-         {:ok, _} <- create_user_token(%{user_id: user.id, context: :subscription}) do
+         {:ok, %{token: token}} <-
+           create_user_token(%{ip: ip, user_id: user.id, context: :subscription}),
+         {:ok, _} <-
+           Notifications.deliver_confirm_subscription_email(%ConfirmSubscription{
+             confirm_link: String.replace(confirm_link, ":token", token),
+             email: email,
+             footer: "",
+             text:
+               "Please confirm your subscription to LiveScheduling updates by clicking the button below.",
+             title: "Confirm Your Subscription"
+           }) do
       {:ok, "Please check your email to confirm your subscription"}
     else
       {:ok, %UserToken{}} ->
         {:error,
          "A subscription request was sent recently. Please wait #{@subscription_debounce_time} seconds before trying again"}
+
+      %User{subscribed_to_marketing_at: time} when not is_nil(time) ->
+        {:error, "Invalid user or already subscribed"}
 
       res ->
         res

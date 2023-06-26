@@ -14,10 +14,12 @@ defmodule LiveSchedulingWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", LiveSchedulingWeb.PagesLive do
-    pipe_through :browser
+  live_session :default, on_mount: LiveSchedulingWeb.Hooks.Init do
+    scope "/", LiveSchedulingWeb.PagesLive do
+      pipe_through :browser
 
-    live "/", Home, :home
+      live "/", Home, :home
+    end
   end
 
   # Other scopes may use custom stacks.
