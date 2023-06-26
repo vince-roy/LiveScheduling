@@ -5,8 +5,8 @@ defmodule LiveScheduling.Accounts do
   alias LiveScheduling.Accounts.User
   alias LiveScheduling.Accounts.UserToken
   alias LiveScheduling.Notifications
-  alias LiveScheduling.Repo
   alias LiveScheduling.Notifications.Email.ConfirmSubscription
+  alias LiveScheduling.Repo
   import Ecto.Query
 
   # seconds
