@@ -24,7 +24,7 @@ defmodule LiveSchedulingWeb.Containers do
   def ctn_app(assigns) do
     ~H"""
     <div class={["max-w-7xl", @class, "mx-auto"] ++ if @padding, do: ["px-4"], else: []}>
-      <%= render_block(@inner_block) %>
+      <%= render_slot(@inner_block) %>
     </div>
     """
   end
